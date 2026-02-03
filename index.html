@@ -1,4 +1,5 @@
 
+
 ‏<!DOCTYPE html>
 ‏<html lang="ar" dir="rtl">
 ‏<head>
@@ -7,63 +8,17 @@
 ‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ‏<style>
-‏body{
-‏  margin:0;
-‏  font-family:"Segoe UI",Tahoma;
-‏  background:#eef3f1;
+‏body { font-family: Tahoma; background:#f4f6f5; margin:0; }
+‏header { background:#2ecc71; color:#fff; padding:20px; text-align:center; }
+‏section { background:#fff; margin:15px; padding:20px; border-radius:12px; }
+‏select, input, button {
+‏  width:100%; padding:10px; margin-top:10px;
+‏  border-radius:10px; border:1px solid #ccc;
 }
-‏header{
-‏  background:linear-gradient(135deg,#2ecc71,#27ae60);
-‏  color:white;
-‏  padding:25px;
-‏  text-align:center;
-}
-‏section{
-‏  background:white;
-‏  margin:15px;
-‏  padding:20px;
-‏  border-radius:18px;
-‏  box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}
-‏h2{ color:#27ae60; margin-bottom:10px; }
-‏label{ font-size:14px; }
-‏input,select,button{
-‏  width:100%;
-‏  padding:12px;
-‏  margin-top:8px;
-‏  border-radius:12px;
-‏  border:1px solid #ccc;
-‏  font-size:15px;
-}
-‏button{
-‏  background:#27ae60;
-‏  color:white;
-‏  border:none;
-‏  margin-top:15px;
-}
-‏.card{
-‏  padding:15px;
-‏  border-radius:14px;
-‏  margin-top:12px;
-‏  font-size:15px;
-}
-‏.green{ background:#e9f9f0; color:#1e8449;}
-‏.yellow{ background:#fff9e6; color:#b7950b;}
-‏.red{ background:#fdecea; color:#922b21;}
-‏.report{
-‏  font-size:15px;
-‏  line-height:1.7;
-}
-‏canvas{
-‏  margin-top:15px;
-‏  width:100%;
-}
-‏footer{
-‏  text-align:center;
-‏  font-size:13px;
-‏  color:#777;
-‏  padding:15px;
-}
+‏button { background:#27ae60; color:white; border:none; }
+‏.result { margin-top:15px; font-size:16px; }
+‏.green{color:#2ecc71} .yellow{color:#f1c40f} .red{color:#e74c3c}
+‏.box{padding:10px; margin-top:8px; border-radius:8px;}
 ‏</style>
 ‏</head>
 
@@ -71,68 +26,54 @@
 
 ‏<header>
 ‏<h1>أثر | Athar</h1>
-‏<p>حلل مصروفك وراقب أثرك المالي والبيئي والاجتماعي</p>
+‏<p>تحليل الأثر المالي والبيئي والاجتماعي</p>
 ‏</header>
 
 ‏<section>
-‏<h2>➕ إدخال مصروف</h2>
-
 ‏<label>المبلغ (ريال)</label>
 ‏<input type="number" id="amount">
 
 ‏<label>نوع الصرف</label>
 ‏<select id="type">
-‏<option value="">اختر</option>
-‏<option value="need">احتياج</option>
-‏<option value="want">رغبة</option>
-‏<option value="luxury">كمالية</option>
+‏  <option value="">اختر</option>
+‏  <option value="need">احتياج</option>
+‏  <option value="want">رغبة</option>
+‏  <option value="luxury">كمالية</option>
 ‏</select>
 
 ‏<label>درجة الضرورة</label>
 ‏<select id="priority">
-‏<option value="">اختر</option>
-‏<option value="high">عالية</option>
-‏<option value="medium">متوسطة</option>
-‏<option value="low">منخفضة</option>
+‏  <option value="">اختر</option>
+‏  <option value="high">عالية</option>
+‏  <option value="medium">متوسطة</option>
+‏  <option value="low">منخفضة</option>
 ‏</select>
 
 ‏<label>هل المنتج محلي؟</label>
 ‏<select id="local">
-‏<option value="">اختر</option>
-‏<option value="yes">نعم</option>
-‏<option value="no">لا</option>
+‏  <option value="">اختر</option>
+‏  <option value="yes">نعم</option>
+‏  <option value="no">لا</option>
 ‏</select>
 
-‏<button onclick="analyze()">تحليل وحفظ</button>
+‏<button onclick="analyze()">تحليل الأثر</button>
 
-‏<div id="result"></div>
+‏<div id="output"></div>
 ‏</section>
-
-‏<section>
-‏<h2>📊 التقرير الأسبوعي</h2>
-‏<div id="weekly" class="report"></div>
-‏<canvas id="chart" width="300" height="180"></canvas>
-‏</section>
-
-‏<footer>
-مشروع تخرج | التكنولوجيا المالية والاستدامة 🌱
-‏</footer>
 
 ‏<script>
-‏let data = JSON.parse(localStorage.getItem("atharData")) || [];
-
 ‏function analyze(){
 ‏  let type = document.getElementById("type").value;
 ‏  let priority = document.getElementById("priority").value;
 ‏  let local = document.getElementById("local").value;
-‏  let result = document.getElementById("result");
+‏  let output = document.getElementById("output");
 
-‏  if(type==""||priority==""||local==""){
-‏    result.innerHTML="⚠️ أدخل جميع البيانات";
+‏  if(type=="" || priority=="" || local==""){
+‏    output.innerHTML="⚠️ أدخل جميع البيانات";
 ‏    return;
   }
 
-‏  let financial=0, env=0, social=0;
+‏  let financial=0, environmental=0, social=0;
 
   // الأثر المالي
 ‏  if(type=="need") financial=3;
@@ -143,72 +84,30 @@
 ‏  else if(priority=="medium") financial+=1;
 
   // الأثر البيئي
-‏  env = (type=="need")?3:(type=="want")?2:1;
+‏  if(type=="need") environmental=3;
+‏  else if(type=="want") environmental=2;
+‏  else environmental=1;
 
   // الأثر الاجتماعي
-‏  social = (local=="yes")?3:1;
+‏  social = (local=="yes") ? 3 : 1;
 
-‏  let total = financial + env + social;
-‏  let level="", color="";
+‏  let total = financial + environmental + social;
+‏  let indicator="", color="";
 
-‏  if(total>=8){ level="🟢 أثر عالي"; color="green"; }
-‏  else if(total>=5){ level="🟡 أثر متوسط"; color="yellow"; }
-‏  else{ level="🔴 أثر منخفض"; color="red"; }
+‏  if(total >= 8){ indicator="🟢 أثر عالي"; color="green"; }
+‏  else if(total >=5){ indicator="🟡 أثر متوسط"; color="yellow"; }
+‏  else{ indicator="🔴 أثر منخفض"; color="red"; }
 
-‏  data.push({financial,env,social,total});
-‏  localStorage.setItem("atharData",JSON.stringify(data));
-
-‏  result.innerHTML=`
-‏  <div class="card ${color}">
-‏  <strong>${level}</strong><br>
-  💰 مالي: ${financial} | 🌱 بيئي: ${env} | 👥 اجتماعي: ${social}<br>
-  📊 المجموع: ${total}
-‏  </div>`;
-
-‏  weeklyReport();
-}
-
-‏function weeklyReport(){
-‏  let week = data.slice(-7);
-‏  if(week.length==0) return;
-
-‏  let sum = week.reduce((a,b)=>a+b.total,0);
-‏  let avg = Math.round(sum/week.length);
-‏  let status = avg>=8?"🟢 عالي":avg>=5?"🟡 متوسط":"🔴 منخفض";
-
-‏  document.getElementById("weekly").innerHTML=`
-  عدد العمليات: ${week.length}<br>
-  متوسط مؤشر الأثر: ${avg}<br>
-  التقييم العام: <strong>${status}</strong>
+‏  output.innerHTML = `
+‏    <div class="box ${color}">
+‏    <strong>${indicator}</strong><br><br>
+    💰 الأثر المالي: ${financial}/5<br>
+    🌱 الأثر البيئي: ${environmental}/3<br>
+    👥 الأثر الاجتماعي: ${social}/3<br><br>
+    📊 المجموع: ${total}/11
+‏    </div>
   `;
-
-‏  drawChart(week);
 }
-
-‏function drawChart(weekData){
-‏  let canvas = document.getElementById("chart");
-‏  let ctx = canvas.getContext("2d");
-‏  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-‏  let max = 11;
-‏  let barWidth = 30;
-‏  let gap = 12;
-
-‏  weekData.forEach((item,i)=>{
-‏    let height = (item.total / max) * 120;
-‏    let x = 20 + i * (barWidth + gap);
-‏    let y = 150 - height;
-
-‏    ctx.fillStyle = item.total>=8 ? "#2ecc71" :
-‏                    item.total>=5 ? "#f1c40f" : "#e74c3c";
-‏    ctx.fillRect(x, y, barWidth, height);
-
-‏    ctx.fillStyle="#555";
-‏    ctx.fillText(item.total, x+8, y-5);
-  });
-}
-
-‏weeklyReport();
 ‏</script>
 
 ‏</body>
