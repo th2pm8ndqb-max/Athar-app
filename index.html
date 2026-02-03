@@ -1,129 +1,215 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أثر | Athar</title>
-    <style>
-        :root { --primary: #27ae60; --bg: #f4f9f7; --dark: #2c3e50; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
-        .app-card { background: white; width: 100%; max-width: 400px; border-radius: 30px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); text-align: center; }
-        .header h1 { color: var(--primary); margin: 0; font-size: 30px; }
-        .header p { font-size: 13px; color: #7f8c8d; margin-bottom: 20px; }
-        .points-container { background: #e8f5e9; padding: 10px; border-radius: 15px; margin-bottom: 20px; border: 1px dashed var(--primary); }
-        .points-label { font-size: 12px; color: var(--primary); font-weight: bold; }
-        #totalPoints { font-size: 24px; display: block; color: var(--primary); }
-        .input-group { text-align: right; margin-bottom: 15px; }
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #555; }
-        input, select { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 12px; font-size: 15px; outline: none; box-sizing: border-box; }
-        button { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 15px; font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        #resultArea { display: none; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
-        .impact-badge { padding: 15px; border-radius: 15px; font-weight: bold; margin-bottom: 15px; }
-        .personality-tag { font-size: 12px; background: #34495e; color: white; padding: 4px 10px; border-radius: 5px; display: inline-block; margin-top: 10px; }
-        .grid-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 15px; }
-        .stat-item { background: #f9f9f9; padding: 8px; border-radius: 10px; font-size: 11px; border-bottom: 2px solid #ddd; }
-    </style>
+  <meta charset="UTF-8">
+  <title>أثر | Athar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      background: #f5f7f6;
+      color: #2c2c2c;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    section {
+      background: white;
+      margin: 15px;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      color: #27ae60;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      padding-right: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .impact {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .impact div {
+      width: 30%;
+      padding: 15px;
+      border-radius: 12px;
+      background: #f0f0f0;
+    }
+
+    .green { background: #e9f9f0; }
+    .yellow { background: #fff9e6; }
+    .red { background: #fdecea; }
+
+    .indicator {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .input-group {
+      margin-bottom: 12px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #27ae60;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #219150;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="app-card">
-    <div class="header">
-        <h1>أثر | Athar 🌿</h1>
-        <p>تتبع أثرك المالي والبيئي والاجتماعي</p>
+<header>
+  <h1>أثر | Athar</h1>
+  <p>لأن كل ريال نصرفه له أثر مالي، بيئي، واجتماعي</p>
+</header>
+
+<section>
+  <h2>💡 فكرة التطبيق</h2>
+  <ul>
+    <li>تتبع المصروفات اليومية</li>
+    <li>فهم نتائج القرارات المالية</li>
+    <li>ربط المال بالاحتياجات بدل الرغبات</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🎯 المشكلة</h2>
+  <ul>
+    <li>الصرف العشوائي عند الشباب</li>
+    <li>ضعف الوعي بالأثر البيئي والاجتماعي</li>
+    <li>غياب التخطيط المالي</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🚀 أهداف التطبيق</h2>
+  <ul>
+    <li>رفع الوعي المالي</li>
+    <li>تقليل الهدر</li>
+    <li>دعم الاستدامة</li>
+    <li>تعليم اتخاذ القرار المالي</li>
+    <li>نشر مفهوم التكنولوجيا المالية</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🧠 آلية عمل التطبيق</h2>
+
+  <div class="input-group">
+    <input type="number" placeholder="أدخل المبلغ (ريال)">
+  </div>
+
+  <div class="input-group">
+    <select>
+      <option>نوع الصرف</option>
+      <option>احتياج أساسي</option>
+      <option>رغبة</option>
+      <option>كمالية</option>
+    </select>
+  </div>
+
+  <div class="input-group">
+    <select>
+      <option>درجة الضرورة</option>
+      <option>عالية</option>
+      <option>متوسطة</option>
+      <option>منخفضة</option>
+    </select>
+  </div>
+
+  <button>تحليل الأثر</button>
+</section>
+
+<section>
+  <h2>📊 تحليل الأثر الثلاثي</h2>
+
+  <div class="impact">
+    <div class="green">
+      <div class="indicator">🟢</div>
+      <strong>أثر مالي</strong>
+      <p>هل الصرف ضمن الميزانية؟</p>
     </div>
 
-    <div class="points-container">
-        <span class="points-label">رصيد "أثر" التراكمي (محفوظ)</span>
-        <b id="totalPoints">0</b>
+    <div class="yellow">
+      <div class="indicator">🟡</div>
+      <strong>أثر بيئي</strong>
+      <p>هل يوجد بدائل أقل هدر؟</p>
     </div>
 
-    <div class="input-group">
-        <label>المبلغ المصروف</label>
-        <input type="number" id="amt" placeholder="0.00">
+    <div class="red">
+      <div class="indicator">🔴</div>
+      <strong>أثر اجتماعي</strong>
+      <p>هل يدعم منتج محلي أو المجتمع؟</p>
     </div>
+  </div>
+</section>
 
-    <div class="input-group">
-        <label>نوع الصرف</label>
-        <select id="type">
-            <option value="50">🇸🇦 منتج محلي (دعم الوطن)</option>
-            <option value="40">♻️ صديق للبيئة (استدامة)</option>
-            <option value="10">🌍 منتج مستورد (عادي)</option>
-            <option value="-20">⚠️ هدر غير ضروري</option>
-        </select>
-    </div>
+<section>
+  <h2>📈 التقارير</h2>
+  <ul>
+    <li>تقرير أسبوعي للمصروفات</li>
+    <li>تقرير شهري لمؤشر الأثر الذكي</li>
+  </ul>
+</section>
 
-    <div class="input-group">
-        <label>الضرورة</label>
-        <select id="need">
-            <option value="yes">احتياج ضروري ✅</option>
-            <option value="no">رغبة / ترفيه ✨</option>
-        </select>
-    </div>
-
-    <button onclick="processImpact()">تحليل الأثر الآن</button>
-    <button onclick="resetPoints()" style="background: none; color: #999; font-size: 11px; margin-top: 5px; text-decoration: underline;">تصفير النقاط</button>
-
-    <div id="resultArea">
-        <div id="badge" class="impact-badge"></div>
-        <div id="personality" class="personality-tag"></div>
-        <div class="grid-stats">
-            <div class="stat-item"><b>مالي</b><br><span id="fin"></span></div>
-            <div class="stat-item"><b>بيئي</b><br><span id="env"></span></div>
-            <div class="stat-item"><b>اجتماعي</b><br><span id="soc"></span></div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // عند فتح الصفحة: استرجع النقاط المحفوظة في ذاكرة الجهاز
-    let points = localStorage.getItem('atharPoints') ? parseInt(localStorage.getItem('atharPoints')) : 0;
-    document.getElementById('totalPoints').innerText = points;
-
-    function processImpact() {
-        const amt = document.getElementById('amt').value;
-        const typeVal = parseInt(document.getElementById('type').value);
-        const need = document.getElementById('need').value;
-        
-        if(!amt) { alert("أدخل المبلغ أولاً"); return; }
-
-        // إضافة النقاط وحفظها في ذاكرة المتصفح
-        points += typeVal;
-        localStorage.setItem('atharPoints', points); 
-        document.getElementById('totalPoints').innerText = points;
-
-        document.getElementById('resultArea').style.display = 'block';
-
-        // تحديد اللقب والشخصية
-        const person = document.getElementById('personality');
-        if(typeVal === 50) person.innerText = "شخصيتك: داعم للوطن 🇸🇦";
-        else if(typeVal === 40) person.innerText = "شخصيتك: صديق البيئة ♻️";
-        else if(typeVal === 10) person.innerText = "شخصيتك: مستهلك عالمي 🌍";
-        else person.innerText = "شخصيتك: تحتاج وعي مالي ⚠️";
-
-        document.getElementById('fin').innerText = (need === 'yes') ? "حكيم" : "ترفيهي";
-        document.getElementById('env').innerText = (typeVal >= 40) ? "مستدام" : "عادي";
-        document.getElementById('soc').innerText = (typeVal === 50) ? "عالي" : "منخفض";
-
-        const badge = document.getElementById('badge');
-        if(typeVal > 30) {
-            badge.className = "impact-badge";
-            badge.style.background = "#d4edda"; badge.style.color = "#155724";
-            badge.innerText = "🟢 أثر إيجابي ممتاز";
-        } else {
-            badge.style.background = "#f8d7da"; badge.style.color = "#721c24";
-            badge.innerText = "🔴 أثر يحتاج تحسين";
-        }
-    }
-
-    // وظيفة لتصفير النقاط إذا أراد المستخدم البدء من جديد
-    function resetPoints() {
-        if(confirm("هل تريد تصفير نقاط أثر؟")) {
-            points = 0;
-            localStorage.setItem('atharPoints', 0);
-            document.getElementById('totalPoints').innerText = 0;
-        }
-    }
-</script>
+<footer>
+  مشروع تخرج | التكنولوجيا المالية والتنمية المستدامة 🌱
+</footer>
 
 </body>
 </html>
