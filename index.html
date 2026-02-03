@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أثر | Athar</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 380px; text-align: center; }
+        h1 { color: #27ae60; margin-bottom: 20px; }
+        label { display: block; text-align: right; font-size: 14px; color: #666; margin-top: 15px; }
+        select, input, button { width: 100%; padding: 12px; margin-top: 8px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+        button { background-color: #27ae60; color: white; border: none; font-weight: bold; margin-top: 25px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #219150; transform: scale(1.02); }
+        #result { margin-top: 20px; padding: 15px; border-radius: 12px; display: none; font-weight: bold; font-size: 15px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>أثر - Athar 🌿</h1>
+        <p style="color: #888; font-size: 13px;">تتبع أثر قراراتك المالية والبيئية</p>
+        
+        <label>المبلغ المصروف (ريال):</label>
+        <input type="number" id="amount" placeholder="مثلاً: 100">
+
+        <label>نوع المنتج:</label>
+        <select id="type">
+            <option value="local">منتج محلي 🇸🇦 (دعم وطني)</option>
+            <option value="eco">صديق للبيئة ♻️ (استدامة)</option>
+            <option value="imported">منتج مستورد 🌍 (أثر منخفض)</option>
+        </select>
+
+        <button onclick="checkImpact()">تحليل الأثر الآن</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function checkImpact() {
+            const type = document.getElementById('type').value;
+            const res = document.getElementById('result');
+            res.style.display = 'block';
+
+            if (type === 'local' || type === 'eco') {
+                res.style.backgroundColor = '#d4edda';
+                res.style.color = '#155724';
+                res.innerHTML = "أثرك إيجابي عالي 🟢<br>خيار ذكي يدعم الاقتصاد المحلي ويحمي البيئة.";
+            } else {
+                res.style.backgroundColor = '#f8d7da';
+                res.style.color = '#721c24';
+                res.innerHTML = "أثرك منخفض 🔴<br>حاول البحث عن بدائل محلية لتقليل أثرك البيئي.";
+            }
+        }
+    </script>
+</body>
+</html>
