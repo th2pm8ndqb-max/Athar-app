@@ -1,178 +1,108 @@
-‏<!DOCTYPE html>
-‏<html lang="ar" dir="rtl">
-‏<head>
-‏<meta charset="UTF-8">
-‏<title>أثر | Athar</title>
-‏<meta name="viewport" content="width=device-width, initial-scale=1.0">
+import datetime
 
-‏<style>
-‏body{
-‏  margin:0;
-‏  font-family: "Segoe UI", Tahoma;
-‏  background:#eef3f1;
-}
-‏header{
-‏  background:linear-gradient(135deg,#2ecc71,#27ae60);
-‏  color:white;
-‏  padding:25px;
-‏  text-align:center;
-}
-‏section{
-‏  background:white;
-‏  margin:15px;
-‏  padding:20px;
-‏  border-radius:16px;
-‏  box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}
-‏h2{ color:#27ae60; margin-bottom:10px; }
-‏label{ font-size:14px; }
-‏input,select,button{
-‏  width:100%;
-‏  padding:12px;
-‏  margin-top:8px;
-‏  border-radius:12px;
-‏  border:1px solid #ccc;
-‏  font-size:15px;
-}
-‏button{
-‏  background:#27ae60;
-‏  color:white;
-‏  border:none;
-‏  margin-top:15px;
-}
-‏.card{
-‏  padding:15px;
-‏  border-radius:14px;
-‏  margin-top:12px;
-}
-‏.green{ background:#e9f9f0; color:#1e8449;}
-‏.yellow{ background:#fff9e6; color:#b7950b;}
-‏.red{ background:#fdecea; color:#922b21;}
-‏.report{
-‏  font-size:15px;
-‏  line-height:1.7;
-}
-‏footer{
-‏  text-align:center;
-‏  font-size:13px;
-‏  color:#777;
-‏  padding:15px;
-}
-‏</style>
-‏</head>
+class AtharApp:
+    def __init__(self, user_name):
+        self.user_name = user_name
+        self.wallet_balance = 1000  # ميزانية افتراضية
+        self.total_points = 0
+        self.history = []
+        self.challenges = [
+            {"name": "أسبوع بلا كماليات", "target": 7, "progress": 0, "active": True},
+            {"name": "دعم المنتج المحلي", "target": 3, "progress": 0, "active": True}
+        ]
 
-‏<body>
+    def add_transaction(self, amount, category, necessity, is_local, is_eco):
+        """
+        1. إدخال المصروف وتحليل الأثر الثلاثي
+        necessity: 1 (كمالي), 2 (متوسط), 3 (ضروري)
+        """
+        # حساب النقاط بناءً على المعايير الثلاثة
+        impact_score = 0
+        impact_score += (necessity * 2)  # الأثر المالي
+        if is_local: impact_score += 5   # الأثر الاجتماعي
+        if is_eco: impact_score += 5     # الأثر البيئي
 
-‏<header>
-‏<h1>أثر | Athar</h1>
-‏<p>حلل مصروفك – وراقب أثرك</p>
-‏</header>
+        # تحديد لون المؤشر
+        if impact_score >= 12:
+            status, color = "أثر عالي (واعٍ ومستدام)", "🟢"
+            self.total_points += 10
+        elif impact_score >= 7:
+            status, color = "أثر متوسط (يحتاج مراجعة)", "🟡"
+            self.total_points += 5
+        else:
+            status, color = "أثر منخفض (غير ضروري)", "🔴"
+            self.total_points += 0
 
-‏<section>
-‏<h2>➕ إدخال مصروف</h2>
+        # تسجيل العملية
+        entry = {
+            "date": datetime.date.today(),
+            "amount": amount,
+            "category": category,
+            "impact": status,
+            "color": color
+        }
+        self.history.append(entry)
+        self.wallet_balance -= amount
+        
+        return entry
 
-‏<label>المبلغ (ريال)</label>
-‏<input type="number" id="amount">
+    def smart_suggestion(self, amount, category):
+        """
+        2. الاقتراح الذكي (مستشار القرار المالي)
+        """
+        print(f"\n💡 [نصيحة أثر]: لاحظنا صرف {amount} ريال على {category}.")
+        if amount > 20 and category == "قهوة":
+            saving = amount * 0.7
+            print(f"-> لو أعددت قهوتك في المنزل، ستوفر شهرياً حوالي {saving * 30} ريال!")
+            print(f"-> هل فكرت في استخدام كوب قابل لإعادة الاستخدام؟ 🌱")
 
-‏<label>نوع الصرف</label>
-‏<select id="type">
-‏<option value="">اختر</option>
-‏<option value="need">احتياج</option>
-‏<option value="want">رغبة</option>
-‏<option value="luxury">كمالية</option>
-‏</select>
+    def what_if_scenario(self, amount, times_per_week):
+        """
+        3. سيناريوهات ذكية (What If)
+        """
+        monthly_cost = amount * times_per_week * 4
+        yearly_cost = monthly_cost * 12
+        print(f"\n📊 [سيناريو ماذا لو]:")
+        print(f"- صرف {amount} ريال لـ {times_per_week} مرات أسبوعياً")
+        print(f"- سيكلفك {monthly_cost} ريال شهرياً و {yearly_cost} ريال سنوياً!")
+        print(f"- تقليل التكرار للنصف يوفر لك {yearly_cost / 2} ريال سنوياً 💰")
 
-‏<label>درجة الضرورة</label>
-‏<select id="priority">
-‏<option value="">اختر</option>
-‏<option value="high">عالية</option>
-‏<option value="medium">متوسطة</option>
-‏<option value="low">منخفضة</option>
-‏</select>
+    def display_impact_footprint(self):
+        """
+        4. بصمة الأثر الشخصي والتقارير
+        """
+        print(f"\n" + "="*30)
+        print(f"👤 مستخدم أثر: {self.user_name}")
+        print(f"💰 الرصيد المتبقي: {self.wallet_balance} ريال")
+        print(f"🏆 إجمالي نقاط الأثر: {self.total_points}")
+        print("-" * 30)
+        print("📈 سجل العمليات الأخيرة:")
+        for item in self.history:
+            print(f"{item['color']} {item['amount']} ريال - {item['category']} ({item['impact']})")
+        print("="*30)
 
-‏<label>هل المنتج محلي؟</label>
-‏<select id="local">
-‏<option value="">اختر</option>
-‏<option value="yes">نعم</option>
-‏<option value="no">لا</option>
-‏</select>
+# --- تشغيل تجريبي للنظام ---
 
-‏<button onclick="analyze()">تحليل وحفظ</button>
+# 1. إنشاء حساب للطالب
+student_app = AtharApp("أحمد")
 
-‏<div id="result"></div>
-‏</section>
+# 2. إدخال مصروف (مثال القهوة اليومية)
+# المبلغ: 30، نوع: قهوة، ضرورة: 1 (كمالي)، محلي: لا، صديق للبيئة: لا
+print("--- عملية شراء قهوة خارجية ---")
+res = student_app.add_transaction(30, "قهوة", 1, False, False)
+print(f"النتيجة: {res['color']} {res['impact']}")
 
-‏<section>
-‏<h2>📊 التقرير الأسبوعي</h2>
-‏<div id="weekly" class="report"></div>
-‏</section>
+# 3. تفعيل المستشار الذكي
+student_app.smart_suggestion(30, "قهوة")
 
-‏<footer>
-مشروع تخرج | FinTech & Sustainability 🌱
-‏</footer>
+# 4. إدخال مصروف (مثال شراء كتاب من متجر محلي)
+# المبلغ: 50، نوع: تعليم، ضرورة: 3 (ضروري)، محلي: نعم، صديق للبيئة: نعم
+print("\n--- عملية شراء كتاب من متجر محلي ---")
+res2 = student_app.add_transaction(50, "كتب", 3, True, True)
+print(f"النتيجة: {res2['color']} {res2['impact']}")
 
-‏<script>
-‏let data = JSON.parse(localStorage.getItem("atharData")) || [];
+# 5. عرض سيناريو مستقبلي
+student_app.what_if_scenario(30, 7)
 
-‏function analyze(){
-‏  let type = typeEl = document.getElementById("type").value;
-‏  let priority = document.getElementById("priority").value;
-‏  let local = document.getElementById("local").value;
-‏  let result = document.getElementById("result");
-
-‏  if(type==""||priority==""||local==""){
-‏    result.innerHTML="⚠️ أدخل جميع البيانات";
-‏    return;
-  }
-
-‏  let financial=0, env=0, social=0;
-
-‏  if(type=="need") financial=3;
-‏  else if(type=="want") financial=2;
-‏  else financial=1;
-
-‏  if(priority=="high") financial+=2;
-‏  else if(priority=="medium") financial+=1;
-
-‏  env = (type=="need")?3:(type=="want")?2:1;
-‏  social = (local=="yes")?3:1;
-
-‏  let total = financial+env+social;
-‏  let level="",color="";
-
-‏  if(total>=8){ level="🟢 أثر عالي"; color="green";}
-‏  else if(total>=5){ level="🟡 أثر متوسط"; color="yellow";}
-‏  else{ level="🔴 أثر منخفض"; color="red";}
-
-‏  data.push({financial,env,social,total});
-‏  localStorage.setItem("atharData",JSON.stringify(data));
-
-‏  result.innerHTML=`
-‏  <div class="card ${color}">
-‏  <strong>${level}</strong><br>
-  💰 مالي: ${financial} | 🌱 بيئي: ${env} | 👥 اجتماعي: ${social}
-‏  </div>`;
-
-‏  weeklyReport();
-}
-
-‏function weeklyReport(){
-‏  let week = data.slice(-7);
-‏  if(week.length==0) return;
-
-‏  let sum = week.reduce((a,b)=>a+b.total,0);
-‏  let avg = Math.round(sum/week.length);
-‏  let status = avg>=8?"🟢 عالي":avg>=5?"🟡 متوسط":"🔴 منخفض";
-
-‏  document.getElementById("weekly").innerHTML=`
-  عدد العمليات: ${week.length}<br>
-  متوسط مؤشر الأثر: ${avg}<br>
-  التقييم العام: <strong>${status}</strong>
-  `;
-}
-
-‏weeklyReport();
-‏</script>
-
-‏</body>
-‏</html>
+# 6. عرض بصمة الأثر النهائية
+student_app.display_impact_footprint()
