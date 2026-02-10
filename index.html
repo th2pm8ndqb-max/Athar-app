@@ -1,107 +1,168 @@
-import datetime
-class AtharApp:
-    def __init__(self, user_name):
-        self.user_name = user_name
-        self.wallet_balance = 1000  # ميزانية افتراضية
-        self.total_points = 0
-        self.history = []
-        self.challenges = [
-            {"name": "أسبوع بلا كماليات", "target": 7, "progress": 0, "active": True},
-            {"name": "دعم المنتج المحلي", "target": 3, "progress": 0, "active": True}
-        ]
 
-    def add_transaction(self, amount, category, necessity, is_local, is_eco):
-        """
-        1. إدخال المصروف وتحليل الأثر الثلاثي
-        necessity: 1 (كمالي), 2 (متوسط), 3 (ضروري)
-        """
-        # حساب النقاط بناءً على المعايير الثلاثة
-        impact_score = 0
-        impact_score += (necessity * 2)  # الأثر المالي
-        if is_local: impact_score += 5   # الأثر الاجتماعي
-        if is_eco: impact_score += 5     # الأثر البيئي
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق أثر - Athar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .impact-card { transition: transform 0.3s; }
+        .impact-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body>
 
-        # تحديد لون المؤشر
-        if impact_score >= 12:
-            status, color = "أثر عالي (واعٍ ومستدام)", "🟢"
-            self.total_points += 10
-        elif impact_score >= 7:
-            status, color = "أثر متوسط (يحتاج مراجعة)", "🟡"
-            self.total_points += 5
-        else:
-            status, color = "أثر منخفض (غير ضروري)", "🔴"
-            self.total_points += 0
+    <header class="bg-green-700 text-white p-6 shadow-lg text-center">
+        <h1 class="text-3xl font-bold">أثر | Athar</h1>
+        <p class="text-sm mt-2 opacity-90">لكل ريال نصرفه.. أثر مالي، بيئي، واجتماعي</p>
+    </header>
 
-        # تسجيل العملية
-        entry = {
-            "date": datetime.date.today(),
-            "amount": amount,
-            "category": category,
-            "impact": status,
-            "color": color
+    <main class="max-w-md mx-auto p-4 pb-24">
+
+        <section id="dashboard" class="tab-content active">
+            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 border-t-4 border-green-500">
+                <h2 class="text-gray-500 text-sm">مؤشر الأثر الذكي العام</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <span class="text-4xl font-bold text-gray-800">78%</span>
+                    <div class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-bold">🟢 ممتاز</div>
+                </div>
+                <div class="w-full bg-gray-200 h-3 rounded-full mt-4">
+                    <div class="bg-green-500 h-3 rounded-full" style="width: 78%"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                <div class="bg-white p-3 rounded-xl shadow-sm border">
+                    <p class="text-xs text-gray-500">المالي</p>
+                    <span class="text-green-600 font-bold">🟢</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm border">
+                    <p class="text-xs text-gray-500">البيئي</p>
+                    <span class="text-yellow-500 font-bold">🟡</span>
+                </div>
+                <div class="bg-white p-3 rounded-xl shadow-sm border">
+                    <p class="text-xs text-gray-500">الاجتماعي</p>
+                    <span class="text-green-600 font-bold">🟢</span>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-lg mb-4">آخر العمليات</h3>
+            <div class="space-y-3">
+                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+                    <div>
+                        <p class="font-bold">قهوة من محمصة محلية</p>
+                        <p class="text-xs text-gray-400">اليوم - 15 ريال</p>
+                    </div>
+                    <span class="text-green-500 font-bold">أثر إيجابي</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+                    <div>
+                        <p class="font-bold">أكياس بلاستيك (سوبرماركت)</p>
+                        <p class="text-xs text-gray-400">أمس - 2 ريال</p>
+                    </div>
+                    <span class="text-red-500 font-bold">أثر بيئي 🔴</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="add-expense" class="tab-content">
+            <h2 class="text-2xl font-bold mb-6 text-green-800 text-center">إضافة مصروف جديد</h2>
+            <div class="bg-white p-6 rounded-2xl shadow-md space-y-4">
+                <div>
+                    <label class="block text-sm mb-1">المبلغ (ريال)</label>
+                    <input type="number" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="0.00">
+                </div>
+                <div>
+                    <label class="block text-sm mb-1">نوع الصرف</label>
+                    <select class="w-full border p-3 rounded-lg outline-none">
+                        <option>طعام وشراب</option>
+                        <option>مواصلات</option>
+                        <option>تسوق</option>
+                        <option>ترفيه</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm mb-1">درجة الضرورة</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="bg-gray-100 p-2 rounded-lg hover:bg-green-100 border focus:bg-green-200">احتياج</button>
+                        <button class="bg-gray-100 p-2 rounded-lg hover:bg-yellow-100 border focus:bg-yellow-200">رغبة</button>
+                    </div>
+                </div>
+                <hr>
+                <p class="text-xs text-blue-600 font-bold">تحليل الأثر الثلاثي:</p>
+                <label class="flex items-center space-x-2 space-x-reverse">
+                    <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600">
+                    <span class="text-sm">هل المنتج يدعم الاستدامة (بيئي)؟</span>
+                </label>
+                <label class="flex items-center space-x-2 space-x-reverse">
+                    <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600">
+                    <span class="text-sm">هل المنتج محلي (اجتماعي)؟</span>
+                </label>
+                <button class="w-full bg-green-600 text-white p-4 rounded-xl font-bold mt-4 shadow-lg hover:bg-green-700 transition" onclick="alert('تم تحليل الأثر بنجاح!')">احسب الأثر 🚀</button>
+            </div>
+        </section>
+
+        <section id="reports" class="tab-content text-center">
+            <h2 class="text-2xl font-bold mb-6 text-green-800">التقرير الأسبوعي 📈</h2>
+            <div class="bg-white p-8 rounded-full w-48 h-48 flex items-center justify-center mx-auto border-8 border-green-500 mb-6 shadow-inner">
+                <div>
+                    <p class="text-3xl font-bold">850</p>
+                    <p class="text-xs text-gray-500">إجمالي الصرف</p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-xl border-r-4 border-blue-500 text-right">
+                    <h4 class="font-bold text-blue-800 text-sm">نصيحة "أثر" لك:</h4>
+                    <p class="text-xs mt-1">لقد قمت بدعم 5 متاجر محلية هذا الأسبوع، استمر! ولكن لاحظنا زيادة في الصرف على "الرغبات" بنسبة 20%.</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-xl border-r-4 border-green-500 text-right">
+                    <h4 class="font-bold text-green-800 text-sm">الأثر البيئي:</h4>
+                    <p class="text-xs mt-1">وفرت استهلاك ما يعادل 12 زجاجة بلاستيك عبر قراراتك الواعية.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-4 shadow-2xl">
+        <button onclick="showTab('dashboard')" class="flex flex-col items-center text-green-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <span class="text-xs mt-1 font-bold">الرئيسية</span>
+        </button>
+        <button onclick="showTab('add-expense')" class="flex flex-col items-center text-gray-400 hover:text-green-600 transition">
+            <div class="bg-green-600 text-white p-3 rounded-full -mt-10 shadow-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+            </div>
+            <span class="text-xs mt-1 font-bold">إضافة</span>
+        </button>
+        <button onclick="showTab('reports')" class="flex flex-col items-center text-gray-400 hover:text-green-600 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span class="text-xs mt-1 font-bold">التقارير</span>
+        </button>
+    </nav>
+
+    <script>
+        function showTab(tabId) {
+            // إخفاء كل الصفحات
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // إظهار الصفحة المطلوبة
+            document.getElementById(tabId).classList.add('active');
+            
+            // تغيير لون الأيقونات (بشكل بسيط)
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.add('text-gray-400');
+                btn.classList.remove('text-green-600');
+            });
+            event.currentTarget.classList.remove('text-gray-400');
+            event.currentTarget.classList.add('text-green-600');
         }
-        self.history.append(entry)
-        self.wallet_balance -= amount
-        
-        return entry
-
-    def smart_suggestion(self, amount, category):
-        """
-        2. الاقتراح الذكي (مستشار القرار المالي)
-        """
-        print(f"\n💡 [نصيحة أثر]: لاحظنا صرف {amount} ريال على {category}.")
-        if amount > 20 and category == "قهوة":
-            saving = amount * 0.7
-            print(f"-> لو أعددت قهوتك في المنزل، ستوفر شهرياً حوالي {saving * 30} ريال!")
-            print(f"-> هل فكرت في استخدام كوب قابل لإعادة الاستخدام؟ 🌱")
-
-    def what_if_scenario(self, amount, times_per_week):
-        """
-        3. سيناريوهات ذكية (What If)
-        """
-        monthly_cost = amount * times_per_week * 4
-        yearly_cost = monthly_cost * 12
-        print(f"\n📊 [سيناريو ماذا لو]:")
-        print(f"- صرف {amount} ريال لـ {times_per_week} مرات أسبوعياً")
-        print(f"- سيكلفك {monthly_cost} ريال شهرياً و {yearly_cost} ريال سنوياً!")
-        print(f"- تقليل التكرار للنصف يوفر لك {yearly_cost / 2} ريال سنوياً 💰")
-
-    def display_impact_footprint(self):
-        """
-        4. بصمة الأثر الشخصي والتقارير
-        """
-        print(f"\n" + "="*30)
-        print(f"👤 مستخدم أثر: {self.user_name}")
-        print(f"💰 الرصيد المتبقي: {self.wallet_balance} ريال")
-        print(f"🏆 إجمالي نقاط الأثر: {self.total_points}")
-        print("-" * 30)
-        print("📈 سجل العمليات الأخيرة:")
-        for item in self.history:
-            print(f"{item['color']} {item['amount']} ريال - {item['category']} ({item['impact']})")
-        print("="*30)
-
-# --- تشغيل تجريبي للنظام ---
-
-# 1. إنشاء حساب للطالب
-student_app = AtharApp("أحمد")
-
-# 2. إدخال مصروف (مثال القهوة اليومية)
-# المبلغ: 30، نوع: قهوة، ضرورة: 1 (كمالي)، محلي: لا، صديق للبيئة: لا
-print("--- عملية شراء قهوة خارجية ---")
-res = student_app.add_transaction(30, "قهوة", 1, False, False)
-print(f"النتيجة: {res['color']} {res['impact']}")
-
-# 3. تفعيل المستشار الذكي
-student_app.smart_suggestion(30, "قهوة")
-
-# 4. إدخال مصروف (مثال شراء كتاب من متجر محلي)
-# المبلغ: 50، نوع: تعليم، ضرورة: 3 (ضروري)، محلي: نعم، صديق للبيئة: نعم
-print("\n--- عملية شراء كتاب من متجر محلي ---")
-res2 = student_app.add_transaction(50, "كتب", 3, True, True)
-print(f"النتيجة: {res2['color']} {res2['impact']}")
-
-# 5. عرض سيناريو مستقبلي
-student_app.what_if_scenario(30, 7)
-
-# 6. عرض بصمة الأثر النهائية
-student_app.display_impact_footprint()
+    </script>
+</body>
+</html>
