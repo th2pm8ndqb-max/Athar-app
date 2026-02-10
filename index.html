@@ -4,164 +4,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق أثر - Athar</title>
+    <title>أثر - Athar</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .impact-card { transition: transform 0.3s; }
-        .impact-card:hover { transform: translateY(-5px); }
+        body { font-family: 'Tajawal', sans-serif; overflow: hidden; }
+        .page { display: none; height: 100vh; overflow-y: auto; padding-bottom: 80px; }
+        .page.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
 
-    <header class="bg-green-700 text-white p-6 shadow-lg text-center">
-        <h1 class="text-3xl font-bold">أثر | Athar</h1>
-        <p class="text-sm mt-2 opacity-90">لكل ريال نصرفه.. أثر مالي، بيئي، واجتماعي</p>
-    </header>
-
-    <main class="max-w-md mx-auto p-4 pb-24">
-
-        <section id="dashboard" class="tab-content active">
-            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 border-t-4 border-green-500">
-                <h2 class="text-gray-500 text-sm">مؤشر الأثر الذكي العام</h2>
-                <div class="flex items-center justify-between mt-2">
-                    <span class="text-4xl font-bold text-gray-800">78%</span>
-                    <div class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-bold">🟢 ممتاز</div>
+    <div id="page-home" class="page active">
+        <div class="bg-gradient-to-b from-green-700 to-green-600 p-8 rounded-b-[40px] text-white shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold">أهلاً بك في أثر 👋</h1>
+                    <p class="opacity-80 text-sm">وعيك المالي يبدأ من هنا</p>
                 </div>
-                <div class="w-full bg-gray-200 h-3 rounded-full mt-4">
-                    <div class="bg-green-500 h-3 rounded-full" style="width: 78%"></div>
+                <div class="bg-white/20 p-2 rounded-full font-bold text-xs italic">Athar v1.0</div>
+            </div>
+            
+            <div class="bg-white/10 p-6 rounded-3xl border border-white/20 backdrop-blur-md">
+                <p class="text-sm opacity-90 mb-1 font-medium">إجمالي الأثر المالي (المصروفات)</p>
+                <h2 class="text-4xl font-black mb-4"><span id="home-total">0</span> <span class="text-lg">ريال</span></h2>
+                <div class="flex gap-2">
+                    <div class="flex-1 bg-white/20 rounded-xl p-2 text-center">
+                        <p class="text-[10px] uppercase">الأثر البيئي</p>
+                        <span id="eco-status" class="text-xs font-bold">🟡 متوسط</span>
+                    </div>
+                    <div class="flex-1 bg-white/20 rounded-xl p-2 text-center">
+                        <p class="text-[10px] uppercase">الأثر الاجتماعي</p>
+                        <span id="social-status" class="text-xs font-bold">🟢 ممتاز</span>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="grid grid-cols-3 gap-4 mb-6 text-center">
-                <div class="bg-white p-3 rounded-xl shadow-sm border">
-                    <p class="text-xs text-gray-500">المالي</p>
-                    <span class="text-green-600 font-bold">🟢</span>
-                </div>
-                <div class="bg-white p-3 rounded-xl shadow-sm border">
-                    <p class="text-xs text-gray-500">البيئي</p>
-                    <span class="text-yellow-500 font-bold">🟡</span>
-                </div>
-                <div class="bg-white p-3 rounded-xl shadow-sm border">
-                    <p class="text-xs text-gray-500">الاجتماعي</p>
-                    <span class="text-green-600 font-bold">🟢</span>
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-gray-800 text-lg">تحركاتك الأخيرة</h3>
+                <span class="text-green-600 text-sm font-bold">عرض الكل</span>
+            </div>
+            
+            <div id="transactions-list" class="space-y-4">
+                <div class="text-center py-10 text-gray-400">
+                    <p>لا يوجد بيانات.. ابدأ بإضافة أول مصروف!</p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <h3 class="font-bold text-lg mb-4">آخر العمليات</h3>
-            <div class="space-y-3">
-                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+    <div id="page-add" class="page">
+        <div class="p-6">
+            <h2 class="text-3xl font-black text-gray-800 mb-2">إضافة مصروف</h2>
+            <p class="text-gray-500 mb-8">حلل أثر قراراتك المالية والبيئية</p>
+
+            <div class="bg-white p-6 rounded-[30px] shadow-2xl border border-gray-100 space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2 mr-2">كم صرفت؟</label>
+                    <div class="relative">
+                        <input type="number" id="input-amount" class="w-full bg-gray-50 border-none p-5 rounded-2xl text-3xl font-bold text-center text-green-700 focus:ring-4 focus:ring-green-100 transition-all outline-none" placeholder="0.00">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-gray-400">ريال</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2 mr-2">في ماذا صرفت؟</label>
+                    <input type="text" id="input-title" class="w-full bg-gray-50 border-none p-4 rounded-2xl focus:ring-4 focus:ring-green-100 transition-all outline-none" placeholder="مثلاً: وجبة غداء، فاتورة جوال..">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setCategory('need', this)" class="cat-btn border-2 border-green-500 bg-green-50 p-3 rounded-2xl font-bold text-green-700">احتياج</button>
+                    <button onclick="setCategory('want', this)" class="cat-btn border-2 border-transparent bg-gray-50 p-3 rounded-2xl font-bold text-gray-500">رغبة</button>
+                </div>
+
+                <div class="space-y-3 bg-gray-50 p-4 rounded-2xl">
+                    <p class="text-xs font-bold text-gray-400 mb-2">الأثر الذكي:</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">دعم منتج محلي؟</span>
+                        <input type="checkbox" id="check-local" class="w-6 h-6 accent-green-600">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">بديل صديق للبيئة؟</span>
+                        <input type="checkbox" id="check-eco" class="w-6 h-6 accent-green-600">
+                    </div>
+                </div>
+
+                <button onclick="processTransaction()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl shadow-green-200 hover:bg-green-700 active:scale-95 transition-all">
+                    رصد الأثر ✅
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-reports" class="page">
+        <div class="p-6">
+            <h2 class="text-3xl font-black text-gray-800 mb-6">التقارير الذكية</h2>
+            
+            <div class="bg-white p-6 rounded-[30px] shadow-sm mb-4 border-l-[10px] border-blue-500">
+                <div class="flex justify-between items-start">
                     <div>
-                        <p class="font-bold">قهوة من محمصة محلية</p>
-                        <p class="text-xs text-gray-400">اليوم - 15 ريال</p>
+                        <h4 class="font-bold text-blue-800">الأثر المالي</h4>
+                        <p id="report-fin-text" class="text-sm text-gray-500 mt-2">لم يتم رصد بيانات كافية للتحليل.</p>
                     </div>
-                    <span class="text-green-500 font-bold">أثر إيجابي</span>
+                    <span class="text-2xl">📈</span>
                 </div>
-                <div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+            </div>
+
+            <div class="bg-white p-6 rounded-[30px] shadow-sm mb-4 border-l-[10px] border-green-500">
+                <div class="flex justify-between items-start">
                     <div>
-                        <p class="font-bold">أكياس بلاستيك (سوبرماركت)</p>
-                        <p class="text-xs text-gray-400">أمس - 2 ريال</p>
+                        <h4 class="font-bold text-green-800">الأثر البيئي</h4>
+                        <p id="report-eco-text" class="text-sm text-gray-500 mt-2">قراراتك اليوم تحدد جودة هواء الغد.</p>
                     </div>
-                    <span class="text-red-500 font-bold">أثر بيئي 🔴</span>
+                    <span class="text-2xl">🌱</span>
                 </div>
             </div>
-        </section>
 
-        <section id="add-expense" class="tab-content">
-            <h2 class="text-2xl font-bold mb-6 text-green-800 text-center">إضافة مصروف جديد</h2>
-            <div class="bg-white p-6 rounded-2xl shadow-md space-y-4">
-                <div>
-                    <label class="block text-sm mb-1">المبلغ (ريال)</label>
-                    <input type="number" class="w-full border p-3 rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="0.00">
-                </div>
-                <div>
-                    <label class="block text-sm mb-1">نوع الصرف</label>
-                    <select class="w-full border p-3 rounded-lg outline-none">
-                        <option>طعام وشراب</option>
-                        <option>مواصلات</option>
-                        <option>تسوق</option>
-                        <option>ترفيه</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm mb-1">درجة الضرورة</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button class="bg-gray-100 p-2 rounded-lg hover:bg-green-100 border focus:bg-green-200">احتياج</button>
-                        <button class="bg-gray-100 p-2 rounded-lg hover:bg-yellow-100 border focus:bg-yellow-200">رغبة</button>
+            <div class="bg-white p-6 rounded-[30px] shadow-sm mb-4 border-l-[10px] border-purple-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-bold text-purple-800">الأثر الاجتماعي</h4>
+                        <p id="report-soc-text" class="text-sm text-gray-500 mt-2">دعمك للمنتج المحلي ينمي اقتصادنا.</p>
                     </div>
+                    <span class="text-2xl">🇸🇦</span>
                 </div>
-                <hr>
-                <p class="text-xs text-blue-600 font-bold">تحليل الأثر الثلاثي:</p>
-                <label class="flex items-center space-x-2 space-x-reverse">
-                    <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600">
-                    <span class="text-sm">هل المنتج يدعم الاستدامة (بيئي)؟</span>
-                </label>
-                <label class="flex items-center space-x-2 space-x-reverse">
-                    <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600">
-                    <span class="text-sm">هل المنتج محلي (اجتماعي)؟</span>
-                </label>
-                <button class="w-full bg-green-600 text-white p-4 rounded-xl font-bold mt-4 shadow-lg hover:bg-green-700 transition" onclick="alert('تم تحليل الأثر بنجاح!')">احسب الأثر 🚀</button>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section id="reports" class="tab-content text-center">
-            <h2 class="text-2xl font-bold mb-6 text-green-800">التقرير الأسبوعي 📈</h2>
-            <div class="bg-white p-8 rounded-full w-48 h-48 flex items-center justify-center mx-auto border-8 border-green-500 mb-6 shadow-inner">
-                <div>
-                    <p class="text-3xl font-bold">850</p>
-                    <p class="text-xs text-gray-500">إجمالي الصرف</p>
-                </div>
-            </div>
-            <div class="space-y-4">
-                <div class="bg-blue-50 p-4 rounded-xl border-r-4 border-blue-500 text-right">
-                    <h4 class="font-bold text-blue-800 text-sm">نصيحة "أثر" لك:</h4>
-                    <p class="text-xs mt-1">لقد قمت بدعم 5 متاجر محلية هذا الأسبوع، استمر! ولكن لاحظنا زيادة في الصرف على "الرغبات" بنسبة 20%.</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded-xl border-r-4 border-green-500 text-right">
-                    <h4 class="font-bold text-green-800 text-sm">الأثر البيئي:</h4>
-                    <p class="text-xs mt-1">وفرت استهلاك ما يعادل 12 زجاجة بلاستيك عبر قراراتك الواعية.</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-4 shadow-2xl">
-        <button onclick="showTab('dashboard')" class="flex flex-col items-center text-green-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            <span class="text-xs mt-1 font-bold">الرئيسية</span>
+    <div class="fixed bottom-0 left-0 right-0 glass h-20 flex justify-around items-center px-6 border-t border-gray-100 shadow-2xl">
+        <button onclick="navTo('home')" class="nav-icon text-green-600 flex flex-col items-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <span class="text-[10px] font-bold mt-1">الرئيسية</span>
         </button>
-        <button onclick="showTab('add-expense')" class="flex flex-col items-center text-gray-400 hover:text-green-600 transition">
-            <div class="bg-green-600 text-white p-3 rounded-full -mt-10 shadow-lg">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+        <button onclick="navTo('add')" class="nav-icon text-gray-400 flex flex-col items-center">
+            <div class="bg-green-600 text-white p-4 rounded-2xl -mt-12 shadow-lg shadow-green-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
             </div>
-            <span class="text-xs mt-1 font-bold">إضافة</span>
+            <span class="text-[10px] font-bold mt-1">إضافة</span>
         </button>
-        <button onclick="showTab('reports')" class="flex flex-col items-center text-gray-400 hover:text-green-600 transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-            <span class="text-xs mt-1 font-bold">التقارير</span>
+        <button onclick="navTo('reports')" class="nav-icon text-gray-400 flex flex-col items-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span class="text-[10px] font-bold mt-1">التقارير</span>
         </button>
-    </nav>
+    </div>
 
     <script>
-        function showTab(tabId) {
-            // إخفاء كل الصفحات
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            // إظهار الصفحة المطلوبة
-            document.getElementById(tabId).classList.add('active');
+        let total = 0;
+        let selectedCategory = 'need';
+
+        function navTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
             
-            // تغيير لون الأيقونات (بشكل بسيط)
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.add('text-gray-400');
-                btn.classList.remove('text-green-600');
+            // تغيير ألوان الأيقونات
+            document.querySelectorAll('.nav-icon').forEach(icon => icon.classList.replace('text-green-600', 'text-gray-400'));
+            event.currentTarget.classList.replace('text-gray-400', 'text-green-600');
+        }
+
+        function setCategory(cat, btn) {
+            selectedCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('border-green-500', 'bg-green-50', 'text-green-700');
+                b.classList.add('border-transparent', 'bg-gray-50', 'text-gray-500');
             });
-            event.currentTarget.classList.remove('text-gray-400');
-            event.currentTarget.classList.add('text-green-600');
+            btn.classList.replace('border-transparent', 'border-green-500');
+            btn.classList.replace('bg-gray-50', 'bg-green-50');
+            btn.classList.replace('text-gray-500', 'text-green-700');
+        }
+
+        function processTransaction() {
+            const amount = parseFloat(document.getElementById('input-amount').value);
+            const title = document.getElementById('input-title').value;
+            const isLocal = document.getElementById('check-local').checked;
+            const isEco = document.getElementById('check-eco').checked;
+
+            if (!amount || !title) {
+                alert("يا بطل، عبي البيانات كاملة أولاً! 😊");
+                return;
+            }
+
+            total += amount;
+            document.getElementById('home-total').innerText = total.toLocaleString();
+
+            const list = document.getElementById('transactions-list');
+            if (list.innerHTML.includes('لا يوجد بيانات')) list.innerHTML = '';
+
+            const card = document.createElement('div');
+            card.className = "bg-white p-5 rounded-3xl shadow-sm flex justify-between items-center border border-gray-50";
+            card.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="bg-green-100 p-3 rounded-2xl text-xl">${isEco ? '🌱' : '💰'}</div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">${title}</h4>
+                        <p class="text-[10px] text-gray-400">${selectedCategory === 'need' ? 'احتياج أساسي' : 'رغبة / ترفيه'} ${isLocal ? '• منتج محلي 🇸🇦' : ''}</p>
+                    </div>
+                </div>
+                <div class="text-left font-black text-green-700">${amount} ريال</div>
+            `;
+            list.prepend(card);
+
+            // تحديث التقارير بناءً على المدخلات
+            updateDashboardReports(selectedCategory, isLocal, isEco);
+
+            // تصفير وذهاب للرئيسية
+            document.getElementById('input-amount').value = '';
+            document.getElementById('input-title').value = '';
+            navTo('home');
+        }
+
+        function updateDashboardReports(cat, loc, eco) {
+            if (cat === 'want') document.getElementById('report-fin-text').innerText = "لقد زاد صرفك على الرغبات اليوم، حاول موازنة ميزانيتك غداً.";
+            else document.getElementById('report-fin-text').innerText = "ممتاز، أنت تنفق بوعي على احتياجاتك الضرورية.";
+
+            if (loc) {
+                document.getElementById('social-status').innerText = "🟢 عالي";
+                document.getElementById('report-soc-text').innerText = "شكراً لدعمك الاقتصاد المحلي! أثرك الاجتماعي في ازدياد.";
+            }
+            if (eco) {
+                document.getElementById('eco-status').innerText = "🟢 مستدام";
+                document.getElementById('report-eco-text').innerText = "اختيارك الصديق للبيئة يقلل من الانبعاثات الكربونية بشكل رائع.";
+            }
         }
     </script>
 </body>
